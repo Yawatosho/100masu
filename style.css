@@ -1,0 +1,275 @@
+<style>
+#main{
+  width: 100%;
+}
+    header.entry-header {
+        display:none;      
+    }
+    
+    #blog-title{
+        display:none;      
+    }
+#gameContainer {
+  width: 100%;
+  max-width: 1030px;
+  margin: 0 auto;
+  padding: 0 10px;
+  box-sizing: border-box;
+  text-align: center;
+}
+body {
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 20px auto;
+  table-layout: fixed;
+  width: 100%;
+  max-width: 660px;
+}
+td, th {
+  border: 1px solid #ccc;
+  width: 10%;
+  height: 40px;
+  text-align: center;
+  overflow: hidden;
+  padding: 0;
+  box-sizing: border-box;
+}
+td {
+  vertical-align: middle;
+  font-size: 12px;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.focus {
+  outline: 2px solid #007bff;
+  font-weight: bold;
+}
+
+/* コントロール群は中央寄せ */
+#controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;     /* トグルを絶対配置するため */
+  width: 100%;
+  gap: 12px;
+  margin: 10px auto 20px;
+}
+
+/* トグルだけ右端に */
+.sound-toggle-wrapper {
+  position: absolute;
+  right: 0;
+  top: 50%;                    /* 親の高さの真ん中に */
+  transform: translateY(-50%); /* 真ん中からさらに半分上に */
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* さらにスイッチだけ少し下げたい場合 */
+.switch {
+  /* 数値はお好みで */
+  margin-top: 7px;
+}
+
+/* チェックボックスを非表示にせず、見た目をスイッチ化 */
+.switch input[type="checkbox"] {
+  /* ブラウザ既定のチェックボックスを消す */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  /* スイッチ本体のサイズ */
+  width: 40px;
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 20px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color .3s;
+}
+
+/* スイッチのつまみ */
+.switch input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 2px;
+  left: 2px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform .3s;
+}
+
+/* ON時の背景色・つまみ位置 */
+.switch input[type="checkbox"]:checked {
+  background-color: #007bff;
+}
+.switch input[type="checkbox"]:checked::before {
+  transform: translateX(20px);
+}
+
+button.control {
+  padding: 8px 16px;
+  margin: 0 5px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button.control:hover {
+  background: #0056b3;
+}
+
+/* 難易度セレクトをボタン風に */
+#modeSelect {
+  appearance: none;            /* ブラウザ既定スタイルをリセット */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 8px 12px;           /* 内側余白 */
+  font-size: 14px;
+  border: 1px solid #007bff;   /* 青い枠線 */
+  border-radius: 6px;          /* 角丸 */
+  background-color: #fff;      /* 白地 */
+  color: #007bff;              /* 文字色 */
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6H0z' fill='%23007bff'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;  /* 矢印アイコンを右寄せ */
+  background-size: 10px 6px;
+}
+
+
+#bestTime,
+#timer {
+  font-size: 1em;
+  margin: 10px auto;
+  text-align: center;
+  display: block;
+}
+.result {
+  margin-top: 20px;
+  font-size: 1em;
+  text-align: center;
+}
+#options {
+  margin: 20px auto;
+  max-width: 660px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#options button {
+  width: 100%;
+  max-width: 660px;
+  margin: 5px 0;
+  padding: 8px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 14px;
+}
+#options button:hover {
+  background: #e6f0ff;
+}
+#shareBtn {
+  display: none;
+}
+@media (max-width: 600px) {
+  /* テーブルセルの高さを縮小 */
+  #grid td,
+  #grid th {
+    height: 20px;        /* デフォ：30px → 20px */
+    font-size: 8px;      /* デフォ：10px → 8px */
+    line-height: 1;      /* 行間も詰める */
+    padding-top: 2px;    /* 上下パディングを小さく */
+    padding-bottom: 2px;
+  }
+
+  /* 他のスマホ向けスタイルはそのまま */
+  #options button {
+    flex: 1 1 100%;
+  }
+  #controls,
+  #bestTime,
+  #timer {
+    margin: 5px auto;
+  }
+
+}
+
+@media (max-width: 600px) {
+  /* controls は折り返しを許可 */
+  #controls {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* トグルだけ2行目に */
+  .sound-toggle-wrapper {
+    position: static;       /* 絶対配置をリセット */
+    margin: 8px auto 0;     /* 上下マージンを適度に */
+    order: 1;               /* 2行目に回す */
+    width: 100%;            /* 幅いっぱいに */
+    justify-content: center;/* 中央寄せ */
+  }
+
+  /* ボタン群は1行目に */
+  #modeSelect,
+  #controlBtn,
+  #shareBtn {
+    order: 0;
+  }
+}
+
+/* 誤答セルに正答をホバー表示（上下中央寄せ＆セル背景変化） */
+#grid td[data-correct] {
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+/* セル自体の背景色をホバー時に変更 */
+#grid td[data-correct]:hover {
+  background-color: #fff7cc;  /* お好みで調整してください */
+}
+
+/* 正答オーバーレイ */
+#grid td[data-correct]:hover::after {
+  content: attr(data-correct);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  /* Flexで上下左右中央寄せ */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 折り返し対応 */
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  /* 見た目調整 */
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 4px;
+  box-sizing: border-box;
+  font-size: 12px;
+  font-weight: bold;
+  pointer-events: none;
+  z-index: 10;
+}
+
+
+</style>
