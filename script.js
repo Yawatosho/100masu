@@ -1,5 +1,5 @@
-
-  document.addEventListener('DOMContentLoaded', () => {
+(function(){
+  function init() {
     const correctAnswers = [
       ["総記","図書館・図書館学","図書・書誌学","百科事典","一般論文集・一般講演集","逐次刊行物","団体：学会，協会，会議","ジャーナリズム・新聞","叢書・全集・選集","貴重書・郷土資料・その他の特別コレクション"],
       ["哲学","哲学各論","東洋思想","西洋哲学","心理学","倫理学・道徳","宗教","神道","仏教","キリスト教"],
@@ -20,13 +20,13 @@
     let soundEnabled = true;
     let gameStarted = false;
 
-    // 追加：重複呼び出し防止用フラグ
+    // 重複呼び出し防止用フラグ
     let finishCalled = false;
     let resultSoundPlayed = false;
 
     const pad = n => n.toString().padStart(2, '0');
 
-    // シャッフル
+    // 配列シャッフル
     const shuffle = arr => {
       for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -127,7 +127,6 @@
     }
 
     function finish() {
-      // 重複呼び出し防止
       if (finishCalled) return;
       finishCalled = true;
 
@@ -146,11 +145,8 @@
           const r = rowOrder.length ? rowOrder[i] : i;
           const c = colOrder.length ? colOrder[j] : j;
           const ok = td.textContent === correctAnswers[r][c];
-          if (ok) {
-            correctCount++;
-          } else {
-            td.setAttribute('data-correct', correctAnswers[r][c]);
-          }
+          if (ok) correctCount++;
+          else td.setAttribute('data-correct', correctAnswers[r][c]);
           info.push({ td, ok });
         }
       }
@@ -174,7 +170,6 @@
         } else {
           revealSound.pause();
           revealSound.currentTime = 0;
-          // 結果音は一度だけ
           if (!resultSoundPlayed) {
             playIfEnabled(resultSound);
             resultSoundPlayed = true;
@@ -190,7 +185,6 @@
     }
 
     function startGame() {
-      // フラグリセット
       finishCalled = false;
       resultSoundPlayed = false;
 
@@ -215,19 +209,12 @@
       gameStarted = true;
     }
 
-    function restartGame() {
-      clearInterval(timerInterval);
-      startGame();
-    }
+    function restartGame() { clearInterval(timerInterval); startGame(); }
 
     function handleControl() {
       const startSound = document.getElementById('startSound');
       playIfEnabled(startSound);
-      if (gameStarted) {
-        restartGame();
-      } else {
-        startGame();
-      }
+      if (gameStarted) restartGame(); else startGame();
     }
 
     function shareResult() {
@@ -239,7 +226,7 @@
       window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`);
     }
 
-    // サウンド ON/OFF トグル
+    // トグル
     const toggleBtn = document.getElementById('soundToggle');
     toggleBtn.addEventListener('click', () => {
       soundEnabled = !soundEnabled;
@@ -249,11 +236,17 @@
     document.getElementById('controlBtn').addEventListener('click', handleControl);
     document.getElementById('shareBtn').addEventListener('click', shareResult);
     document.addEventListener('keydown', e => {
-      if (['1', '2', '3', '4', '5'].includes(e.key)) {
-        document.querySelectorAll('#options button')[parseInt(e.key) - 1]?.click();
+      if (['1','2','3','4','5'].includes(e.key)) {
+        document.querySelectorAll('#options button')[parseInt(e.key)-1]?.click();
       }
     });
-    window.addEventListener('load', () => {
-      displayBest();
-    });
-  });
+    window.addEventListener('load', () => { displayBest(); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
