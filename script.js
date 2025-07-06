@@ -1,4 +1,4 @@
-<script>
+
   document.addEventListener('DOMContentLoaded', () => {
     const correctAnswers = [
       ["総記","図書館・図書館学","図書・書誌学","百科事典","一般論文集・一般講演集","逐次刊行物","団体：学会，協会，会議","ジャーナリズム・新聞","叢書・全集・選集","貴重書・郷土資料・その他の特別コレクション"],
@@ -257,4 +257,3 @@
       displayBest();
     });
   });
-</script>
