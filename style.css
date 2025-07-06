@@ -1,6 +1,6 @@
 <style>
 #main{
-  width: 1030px;
+  width: 1030px !important;
 }
     header.entry-header {
         display:none;      
