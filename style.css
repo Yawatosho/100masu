@@ -139,6 +139,7 @@ button.control:hover {
   -webkit-appearance: none;
   -moz-appearance: none;
   padding: 8px 12px;           /* 内側余白 */
+  padding-right: 24px;
   font-size: 14px;
   border: 1px solid #007bff;   /* 青い枠線 */
   border-radius: 6px;          /* 角丸 */
